@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
-// import { getCardsDataFromAPI } from "../utils/getCards"
+import { getCardsDataFromAPI } from "../utils/getCards"
 
 const GameBoard = ({ endGame, numberOfPairs }) => {
     
@@ -46,7 +46,6 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
 export default GameBoard;
 
 export async function getServerSideProps(numberOfPairs)  {
-    const cardsData = await fetch(`https://api.thedogapi.com/v1/images/search?limit=${numberOfPairs}`)
-    const cardsDataJson = await cardsData.json()
-    return cardsDataJson.map(card => card.url)
+    const cardsData = await getCardsDataFromAPI(numberOfPairs)
+    return cardsData
 }
