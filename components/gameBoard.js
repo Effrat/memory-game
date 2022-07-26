@@ -6,6 +6,7 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
     
     const [cards, setCards] = useState(null)
     const [flippedCount, setFlippedCount] = useState(0)
+    const [flippingAllowed, setFlippingAllowed] = useState(true)
     const [attemptsCount, setAttemptsCount] = useState(0)
     const [matchedPairsCount, setMatchedPairsCount] = useState(0)
 
@@ -22,44 +23,47 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
     }
     
     const  selectCard = (cardId) => {
-        switch (flippedCount) {
-            case 0:
-                flipToFront(cardId)
-                break
-            case 1:
-                flipToFront(cardId)
-                break
-            default:
-                break
+        if (flippingAllowed) {
+            switch (flippedCount) {
+                case 0:
+                    flipToFront(cardId)
+                    break
+                case 1:
+                    flipToFront(cardId)
+                    break
+                default:
+                    break
+            }
         }
     }
 
     useEffect(() => {
 
         const unflipCards = (prevCards) => {
-                let newCards = []
-                for (let i = 0; i < prevCards.length; i++) {
-                    let card = prevCards[i]
-                    if (card.isFlipped && !card.isMatched) {
-                        card.isFlipped = false
-                    }
-                    newCards.push(card)
+            setFlippingAllowed(true)
+            let newCards = []
+            for (let i = 0; i < prevCards.length; i++) {
+                let card = prevCards[i]
+                if (card.isFlipped && !card.isMatched) {
+                    card.isFlipped = false
                 }
-                setCards(newCards)
+                newCards.push(card)
+            }
+            setCards(newCards)
         }
 
-
         const matchCards = (prevCards) => {
-                let newCards = []
-                for (let i = 0; i < prevCards.length; i++) {
-                    let card = prevCards[i]
-                    if (card.isFlipped && !card.isMatched) {
-                        card.isMatched = true
-                    }
-                    newCards.push(card)
+            setFlippingAllowed(true)
+            let newCards = []
+            for (let i = 0; i < prevCards.length; i++) {
+                let card = prevCards[i]
+                if (card.isFlipped && !card.isMatched) {
+                    card.isMatched = true
                 }
-                
-                setCards(newCards)
+                newCards.push(card)
+            }
+            
+            setCards(newCards)
         }
 
         const pairIsMatched = () => {
@@ -94,6 +98,7 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
                 console.log('flippedCount == 1')
                 break
             case 2:
+                setFlippingAllowed(false)
                 console.log('flippedCount == 2')
                 setAttemptsCount((prevAttemptsCount) => prevAttemptsCount + 1)
                 // filter cards with isFlipped: true && isMatched: false
