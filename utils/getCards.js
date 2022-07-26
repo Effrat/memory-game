@@ -1,13 +1,23 @@
 
 export const getCardsDataFromAPI = async numberOfPairs => {
-    const cardsData = await fetch(`https://api.thedogapi.com/v1/images/search?limit=${numberOfPairs}`)
-    const cardsDataJson = await cardsData.json()
-    return cardsDataJson.map(card => card.url)
+    const res = await fetch(`https://api.thedogapi.com/v1/images/search?limit=${numberOfPairs}`)
+    const json = await res.json()
+    let cardsData = []
+    json.forEach((pair, pairId) => {
+        cardsData.push({
+            pairId: pair.id,
+            cardId: pairId,
+            url: pair.url,
+            isFlipped: false,
+            isMatched: false
+        })
+        cardsData.push({
+            pairId: pair.id,
+            cardId: pairId + json.length,
+            url: pair.url,
+            isFlipped: false,
+            isMatched: false
+        })    
+    })
+    return cardsData
 }
-// // [...Array(Number(numberOfPairs)).fill(0).keys()]
-
-// export async function getServerSideProps()  {
-//     const cardsData = await fetch(`https://api.thedogapi.com/v1/images/search?limit=${numberOfPairs}`)
-//     const cardsDataJson = await cardsData.json()
-//     return cardsDataJson.map(card => card.url)
-// }
