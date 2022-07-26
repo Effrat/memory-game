@@ -19,5 +19,5 @@ export const getCardsDataFromAPI = async numberOfPairs => {
             isMatched: false
         })    
     })
-    return cardsData
+    return cardsData.sort(() => Math.random() - 0.5)
 }
