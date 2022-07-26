@@ -15,7 +15,7 @@ const Game = () => {
     useEffect(() => {
     }, [numberOfPairs])
     return (
-        <div>
+        <div className='flex flex-col items-center'>
             <div>Game: {numberOfPairs}</div>
             <input
                 type="range"
@@ -23,6 +23,7 @@ const Game = () => {
                 max="20"
                 value={numberOfPairs}
                 onChange={e => setNumberOfPairs(e.target.value)}
+                disabled={isActiveGame}
             />
             {
                 isActiveGame 
