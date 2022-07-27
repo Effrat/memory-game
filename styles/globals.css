@@ -3,7 +3,30 @@
 @tailwind utilities;
 
 @layer components {
-    .card { 
-        @apply w-[100px] h-[120px] rounded ease-in-out duration-150
+    .card.outer.container { 
+        @apply
+            w-[106px] h-[106px]
+            rounded-lg
+            ease-in-out duration-150
+    }
+
+    .neon {
+        @apply bg-gradient-to-tr
+        from-teal-300 to-fuchsia-500
+        blur
+        absolute
+        rounded-full
+    }
+
+    .card.inner.container {
+        @apply bg-white w-full h-full rounded-md opacity-80 shadow-inner
+    }
+
+    button {
+        @apply
+            px-4 py-2 border-2
+            bg-slate-700 text-white border-slate-700 
+            hover:text-slate-700 hover:bg-white hover:border-slate-700 
+            text-xs font-bold rounded-xl uppercase
     }
 }

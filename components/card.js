@@ -1,56 +1,33 @@
-import Image from "next/image"
+import Image from 'next/image'
 
 const Card = ({ cardId, pairId, url, isFlipped, selectCard, isMatched }) => {
-
-
-    if(isMatched) 
-        return (
-            <div className='card matched bg-green-200 shadow-lg opacity-20' >
-                <div className='w-full h-full flex flex-col justify-center items-center'>
-                    <h3>{pairId}</h3>
-                    <Image
-                        className='rounded'
-                        src={url}
-                        alt='/'
-                        height='70'
-                        width='70'
-                    />
-                </div>
-            </div>
-        )
-        else if(isFlipped)
-            return (
-                <div className='card front bg-green-200 w-[100px] h-[120px] rounded shadow-lg' >
-                    <div className='w-full h-full flex flex-col justify-center items-center'>
-                        <h3>{pairId}</h3>
+    return (
+    <div className='game-board'>
+        <div
+            className={`
+                card back outer container
+                
+                
+            `}
+            onClick={() => !isFlipped ?  selectCard(cardId) : null}
+        >
+            <div className='neon w-full h-full'></div>
+            <div className={`card inner container ${isFlipped ? '' : 'cursor-pointer relative hover:bottom-[1px] hover:left-[1px]'}`}>
+                <div className='card-content h-full w-full flex justify-center items-center'>
+                    <div className={`image-container w-full h-full rounded-md flex justify-center items-center`}>
                         <Image
-                            className='rounded'
+                            className={`rounded-md ${isFlipped ? '' : 'opacity-0'}`}
                             src={url}
                             alt='/'
-                            height='70'
-                            width='70'
+                            height='100'
+                            width='100'
                         />
                     </div>
                 </div>
-            )
-            else
-                return (
-                    <div
-                        className='card back bg-red-200 w-[100px] h-[120px] cursor-pointer rounded shadow-lg'
-                        onClick={() => selectCard(cardId)}
-                    >
-                        <div className='w-full h-full flex flex-col justify-center items-center'>
-                            <p>{pairId}</p>
-                            <Image
-                                className='rounded opacity-20'
-                                src={url}
-                                alt='/'
-                                height='70'
-                                width='70'
-                            />
-                        </div>
-                    </div>
-                )
+            </div>
+        </div>
+    </div>
+    )
 }
  
 export default Card;

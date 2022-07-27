@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { getCardsDataFromAPI } from "../utils/getCards"
 import Card from "../components/card.js"
 
-const GameBoard = ({ endGame, numberOfPairs }) => {
+const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsActiveGame }) => {
     
     const [cards, setCards] = useState(null)
     const [flippedCount, setFlippedCount] = useState(0)
@@ -10,6 +10,15 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
     const [attemptsCount, setAttemptsCount] = useState(0)
     const [matchedPairsCount, setMatchedPairsCount] = useState(0)
 
+    const endGame = () => {
+        setIsActiveGame(false)
+    }
+
+    const getCardsData = async () => {
+        console.log('getCardsData')
+        const cardsData = await getServerSideProps(numberOfPairs)
+        setCards(cardsData)
+    }
 
     const flipToFront = (cardId) => {
         console.log('flipToFront, cardId: ', cardId)
@@ -18,6 +27,22 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
             const newCards = [...preCards]
             let card = newCards.find(card => card.cardId === cardId)
             card.isFlipped = true
+            return newCards
+        })
+    }
+
+    const handleResetGame = () => {
+        setFlippedCount(0)
+        setAttemptsCount(0)
+        setMatchedPairsCount(0)
+        setFlippingAllowed(true)
+        setTotalSecondsActive(0)
+        setCards(prevCards => {
+            const newCards = [...prevCards]
+            newCards.forEach(card => {
+                card.isFlipped = false
+                card.isMatched = false
+                })
             return newCards
         })
     }
@@ -129,36 +154,38 @@ const GameBoard = ({ endGame, numberOfPairs }) => {
     }, [matchedPairsCount, numberOfPairs])
 
     useEffect(() => {
-        const getCardsData = async () => {
-            console.log('getCardsData')
-            const cardsData = await getServerSideProps(numberOfPairs)
-            setCards(cardsData)
-        }
         getCardsData()
     }, [numberOfPairs]) 
 
 
     return (
-        <div className='flex flex-col items-center'>
+        <div className='items-center'>
             {cards 
-                ? <div> 
-                    <div>Pairs: {numberOfPairs}</div>
-                    {<div>Flipped Cards: {flippedCount}</div>}
-                    {<div>Attempts: {attemptsCount}</div>}
-                    {<div>Matched pairs: {matchedPairsCount}</div>}
-                    <button onClick={endGame}>End Game</button>
-                    <div className='flex flex-wrap gap-3 p-4'>
-                        {cards.map(card => (
-                            <Card
-                                key={card.cardId}
-                                pairId={card.pairId}
-                                cardId={card.cardId}
-                                url={card.url}
-                                isFlipped={card.isFlipped}
-                                selectCard={selectCard}
-                                isMatched={card.isMatched}
-                            />
-                        ))}
+                ? <div className='flex flex-col items-center gap-4'> 
+                    <div className='flex w-[80%] justify-between'>
+                        <div>Time: {totalGameTime.hours}:{totalGameTime.minutes}:{totalGameTime.seconds}</div>
+                        <div>Attempts: {attemptsCount}</div>
+                        <div>Matched pairs: {matchedPairsCount}</div>
+                    </div>
+                    <div className='buttons flex gap-4 flex-wrap text-center'>
+                        <button onClick={endGame}>End Game</button>
+                        <button onClick={handleResetGame}>Reset Game</button>
+                        <button onClick={() => getCardsData(handleResetGame())}>New Game</button>
+                    </div>
+                    <div className='board relative w-[80%] mx-auto p-4 rounded-xl shadow-xl'>
+                        <div className='relative flex flex-wrap justify-center gap-3 p-4'>
+                            {cards.map(card => (
+                                <Card
+                                    key={card.cardId}
+                                    pairId={card.pairId}
+                                    cardId={card.cardId}
+                                    url={card.url}
+                                    isFlipped={card.isFlipped}
+                                    selectCard={selectCard}
+                                    isMatched={card.isMatched}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
                 : <div>Loading...</div>
