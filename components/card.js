@@ -1,22 +1,20 @@
 import Image from 'next/image'
 
-const Card = ({ cardId, pairId, url, isFlipped, selectCard, isMatched }) => {
+const Card = ({ cardId, url, isFlipped, selectCard, isMatched }) => {
     return (
-    <div className='game-board'>
+    <div className='container w-[106px] h-[106px]'>
         <div
-            className={`
-                card back outer container
-                
-                
-            `}
+            className='outer w-[106px] h-[106px] rounded-lg ease-in-out duration-150'
             onClick={() => !isFlipped ?  selectCard(cardId) : null}
         >
-            <div className='neon w-full h-full'></div>
-            <div className={`card inner container ${isFlipped ? '' : 'cursor-pointer relative hover:bottom-[1px] hover:left-[1px]'}`}>
-                <div className='card-content h-full w-full flex justify-center items-center'>
-                    <div className={`image-container w-full h-full rounded-md flex justify-center items-center`}>
+            <div className={`neon w-[106px] h-[106px] bg-gradient-to-tr from-teal-300 to-fuchsia-500 blur absolute rounded-full ${isMatched ? 'opacity-20' : ''}`}></div>
+            <div
+                className={`inner w-[106px] h-[106px] bg-white shadow-inner ${isFlipped ? ''
+                : 'cursor-pointer relative drop-shadow rounded-lg hover:bottom-[1px] hover:left-[1px] hover:drop-shadow-lg'} ${isMatched ? 'opacity-20' : 'opacity-90'}`}>
+                <div className='content h-full w-full flex justify-center items-center'>
+                    <div className={`image-container w-[100px] h-[100px] rounded-md flex justify-center items-center`}>
                         <Image
-                            className={`rounded-md ${isFlipped ? '' : 'opacity-0'}`}
+                            className={`rounded-md ${isFlipped ? 'opacity-100' : 'opacity-0'}`}
                             src={url}
                             alt='/'
                             height='100'

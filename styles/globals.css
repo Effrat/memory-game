@@ -3,24 +3,16 @@
 @tailwind utilities;
 
 @layer components {
-    .card.outer.container { 
-        @apply
-            w-[106px] h-[106px]
-            rounded-lg
-            ease-in-out duration-150
-    }
 
     .neon {
-        @apply bg-gradient-to-tr
-        from-teal-300 to-fuchsia-500
-        blur
-        absolute
-        rounded-full
+        @apply
+            bg-gradient-to-tr
+            from-teal-300 to-fuchsia-500
+            blur
+            absolute
+            rounded-full
     }
 
-    .card.inner.container {
-        @apply bg-white w-full h-full rounded-md opacity-80 shadow-inner
-    }
 
     button {
         @apply
