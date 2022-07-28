@@ -61,17 +61,21 @@ const Game = () => {
                 </div>
             :
                 <div className='text-center'>
-                    <label htmlFor='pairs'>Pairs: </label>
-                    <input
-                    name='pairs'
-                        type="range"
-                        min="1"
-                        max="20"
-                        value={numberOfPairs}
-                        onChange={e => setNumberOfPairs(e.target.value)}
-                        disabled={isActiveGame}
-                    />
-                    <div> {numberOfPairs}</div>
+                    <label htmlFor='pairs'>How many pairs would you like to memorize?<br/></label>
+                    <div className='w-[200px] mx-auto border-gray-200 border-2 px-3 py-2 m-3 rounded-lg drop'>
+                        <div className='w-full flex items-center justify-between'>
+                            <input
+                                name='pairs'
+                                type="range"
+                                min="1"
+                                max="20"
+                                value={numberOfPairs}
+                                onChange={e => setNumberOfPairs(e.target.value)}
+                                disabled={isActiveGame}
+                            />
+                            <span> {numberOfPairs}</span>
+                        </div>
+                    </div>
                     <OuterScreen startGame={startGame} />
                 </div>
             }
