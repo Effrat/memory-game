@@ -64,12 +64,12 @@ const Game = () => {
                 flex flex-col gap-2'>
                     <h1>Welcome to the Memory Game!</h1>
                     <label htmlFor='pairs' className='pt-8'>How many pairs of cards would you like to memorize?<br/></label>
-                    <div className='w-[200px] mx-auto border-gray-200 border-2 px-3 py-2 m-3 rounded-lg drop'>
+                    <div className='w-[240px] mx-auto border-gray-200 border-2 px-3 py-2 m-3 rounded-lg drop'>
                         <div className='flex items-center justify-between'>
                             <input
                                 name='pairs'
                                 type="range"
-                                min="1"
+                                min="2"
                                 max="20"
                                 value={numberOfPairs}
                                 onChange={e => setNumberOfPairs(e.target.value)}
