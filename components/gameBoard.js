@@ -173,7 +173,7 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
                         <button onClick={() => getCardsData(handleResetGame())}>New Game</button>
                     </div>
                     <div className='board relative w-[90%] md:w-[60%] mx-auto p-4 rounded-xl shadow-xl'>
-                        <div className='relative flex flex-wrap justify-center gap-3 p-4'>
+                        <div className='relative flex flex-wrap justify-center gap-3 py-3'>
                             {cards.map(card => (
                                 <Card
                                     key={card.cardId}
