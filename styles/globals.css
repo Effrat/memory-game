@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html {
+    scroll-behavior: smooth;
+}
+
+
 @layer components {
 
     button {
@@ -12,5 +18,25 @@
             hover:scale-105 active:scale-95
             text-xs font-bold rounded-xl uppercase
             transition-all duration-500 ease-in-out
+    }
+
+    body {
+        @apply tracking-wide bg-gray-100 text-gray-600;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold;
+    }
+
+    h1 {
+        @apply text-4xl sm:text-5xl md:text-6xl;
+    }
+
+    h2 {
+        @apply text-3xl sm:text-4xl md:text-5xl;
+    }
+
+    h3 {
+        @apply text-2xl sm:text-3xl md:text-4xl;
     }
 }

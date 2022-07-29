@@ -159,20 +159,20 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
 
 
     return (
-        <div className='items-center'>
+        <div className='items-center p-6'>
             {cards 
                 ? <div className='flex flex-col items-center gap-4'> 
                     <div className='flex w-[80%] justify-between'>
                         <div>Time: {totalGameTime.hours}:{totalGameTime.minutes}:{totalGameTime.seconds}</div>
                         <div>Attempts: {attemptsCount}</div>
-                        <div>Matched pairs: {matchedPairsCount}</div>
+                        <div>Matched pairs: {matchedPairsCount}/{numberOfPairs}</div>
                     </div>
                     <div className='buttons flex gap-4 flex-wrap text-center'>
                         <button onClick={endGame}>End Game</button>
-                        <button onClick={handleResetGame}>Reset Game</button>
+                        {/* <button onClick={handleResetGame}>Reset Game</button> */}
                         <button onClick={() => getCardsData(handleResetGame())}>New Game</button>
                     </div>
-                    <div className='board relative w-[80%] mx-auto p-4 rounded-xl shadow-xl'>
+                    <div className='board relative w-[90%] md:w-[60%] mx-auto p-4 rounded-xl shadow-xl'>
                         <div className='relative flex flex-wrap justify-center gap-3 p-4'>
                             {cards.map(card => (
                                 <Card

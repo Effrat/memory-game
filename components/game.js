@@ -60,10 +60,12 @@ const Game = () => {
                     />
                 </div>
             :
-                <div className='text-center'>
-                    <label htmlFor='pairs'>How many pairs would you like to memorize?<br/></label>
+                <div className='text-center relative w-[90%] md:w-[60%] mx-auto p-4 rounded-xl shadow-xl
+                flex flex-col gap-2'>
+                    <h1>Welcome to the Memory Game!</h1>
+                    <label htmlFor='pairs' className='pt-8'>How many pairs of cards would you like to memorize?<br/></label>
                     <div className='w-[200px] mx-auto border-gray-200 border-2 px-3 py-2 m-3 rounded-lg drop'>
-                        <div className='w-full flex items-center justify-between'>
+                        <div className='flex items-center justify-between'>
                             <input
                                 name='pairs'
                                 type="range"
