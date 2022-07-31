@@ -17,13 +17,13 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
     }
 
     const getCardsData = async () => {
-        console.log('getCardsData')
+        // console.log('getCardsData')
         const cardsData = await getServerSideProps(numberOfPairs)
         setCards(cardsData)
     }
 
     const flipToFront = (cardId) => {
-        console.log('flipToFront, cardId: ', cardId)
+        // console.log('flipToFront, cardId: ', cardId)
         setFlippedCount((prevFlippedCount) => prevFlippedCount + 1)
         setCards((preCards) => {
             const newCards = [...preCards]
@@ -104,24 +104,24 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
         }
 
         const pairIsMatched = () => {
-            console.log('pair is matched')
+            // console.log('pair is matched')
             // update matchedPairsCount
             setMatchedPairsCount((prevMatchedPairsCount) => prevMatchedPairsCount + 1)
             // set cards as matched after delay
             setFlippedCount(0, 
                 setTimeout(() => {
-                    console.log('matchCards timeout')
+                    // console.log('matchCards timeout')
                     matchCards(cards)
                 }, 700)
             )
         }
 
         const pairIsNotMatched = async () => {
-            console.log('pair is not matched')
+            // console.log('pair is not matched')
             // unflip cards after delay
             setFlippedCount(0, 
                 setTimeout(() => {
-                    console.log('unmatchCards timeout')
+                    // console.log('unmatchCards timeout')
                     unflipCards(cards)
                 }, 700)
             )
@@ -129,14 +129,14 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
 
         switch (flippedCount) {
             case 0:
-                console.log('flippedCount == 0')
+                // console.log('flippedCount == 0')
                 break
             case 1:
-                console.log('flippedCount == 1')
+                // console.log('flippedCount == 1')
                 break
             case 2:
                 setFlippingAllowed(false)
-                console.log('flippedCount == 2')
+                // console.log('flippedCount == 2')
                 setAttemptsCount((prevAttemptsCount) => prevAttemptsCount + 1)
                 // filter cards with isFlipped: true && isMatched: false
                 const flippedCards = [...cards].filter(card => (!card.isMatched && card.isFlipped))
@@ -154,7 +154,7 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
     }, [flippedCount])
 
     useEffect(() => {
-        console.log('cards updated')
+        // console.log('cards updated')
     }, [cards])
 
 
@@ -168,7 +168,7 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
                 2000
             )
             return () => clearInterval(second)
-            console.log('end game')
+            // console.log('end game')
         }
     }, [matchedPairsCount, numberOfPairs])
 
