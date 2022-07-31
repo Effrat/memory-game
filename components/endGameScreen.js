@@ -1,12 +1,12 @@
-const EndGameScreen = () => {
-    const [isGameWon, setIsGameWon] = useState(true)
-
+const EndGameScreen = ({ handleNewGame }) => {
     return (
-        <div className="endGameScreen">
-            {isGameWon ? <h1>Congratulations, you won!</h1> : <h1>Game Ended by Player</h1>}
-            <p>You scored:</p>
-            <p>0</p>
-            <button>Play Again</button>
+        <div className='end-game-screen flex flex-col gap-4 justify-center'>
+            <h1>Congratulations!</h1>
+            <div>
+                <button onClick={handleNewGame}>Play Again</button>
+            </div>
         </div>
     );
 }
+
+export default EndGameScreen

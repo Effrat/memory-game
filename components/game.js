@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 
-import GameBoard from "./gameBoard"
-import OuterScreen from "./outerScreen"
+import GameBoard from './gameBoard'
+import OuterScreen from './outerScreen'
 
 
 const Game = () => {
@@ -47,8 +47,6 @@ const Game = () => {
     }, [numberOfPairs])
     return (
         <div className='text-center'>
-            
-            
             { isActiveGame
             ? 
                 <div>
@@ -68,9 +66,9 @@ const Game = () => {
                         <div className='flex items-center justify-between'>
                             <input
                                 name='pairs'
-                                type="range"
-                                min="2"
-                                max="20"
+                                type='range'
+                                min='2'
+                                max='20'
                                 value={numberOfPairs}
                                 onChange={e => setNumberOfPairs(e.target.value)}
                                 disabled={isActiveGame}

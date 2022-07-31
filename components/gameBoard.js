@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react"
-import { getCardsDataFromAPI } from "../utils/getCards"
-import Card from "../components/card.js"
+import { useState, useEffect } from 'react'
+import { getCardsDataFromAPI } from '../utils/getCards'
+import Card from '../components/card.js'
+import EndGameScreen from '../components/endGameScreen.js'
 
 const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsActiveGame }) => {
     
@@ -9,6 +10,7 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
     const [flippingAllowed, setFlippingAllowed] = useState(true)
     const [attemptsCount, setAttemptsCount] = useState(0)
     const [matchedPairsCount, setMatchedPairsCount] = useState(0)
+    const [endGameScreenVisible, setEndGameScreenVisible] = useState(false)
 
     const endGame = () => {
         setIsActiveGame(false)
@@ -46,6 +48,16 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
             return newCards
         })
     }
+
+    const handleNewGame = () => {
+        setFlippedCount(0)
+        setAttemptsCount(0)
+        setMatchedPairsCount(0)
+        setFlippingAllowed(true)
+        setTotalSecondsActive(0)
+        getCardsData()
+        setEndGameScreenVisible(false)  
+    }   
     
     const  selectCard = (cardId) => {
         if (flippingAllowed) {
@@ -98,9 +110,9 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
             // set cards as matched after delay
             setFlippedCount(0, 
                 setTimeout(() => {
-                    console.log("matchCards timeout")
+                    console.log('matchCards timeout')
                     matchCards(cards)
-                }, 2000)
+                }, 700)
             )
         }
 
@@ -109,9 +121,9 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
             // unflip cards after delay
             setFlippedCount(0, 
                 setTimeout(() => {
-                    console.log("unmatchCards timeout")
+                    console.log('unmatchCards timeout')
                     unflipCards(cards)
-                }, 2000)
+                }, 700)
             )
         }
 
@@ -148,7 +160,14 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
 
     useEffect(() => {
         if (matchedPairsCount === Number(numberOfPairs)) {
-            // endGame()
+            let second = setInterval(
+                () => {
+                    setEndGameScreenVisible(true)
+                    setCards(null)
+                },
+                2000
+            )
+            return () => clearInterval(second)
             console.log('end game')
         }
     }, [matchedPairsCount, numberOfPairs])
@@ -160,35 +179,40 @@ const GameBoard = ({ numberOfPairs, totalGameTime, setTotalSecondsActive, setIsA
 
     return (
         <div className='items-center p-6'>
-            {cards 
-                ? <div className='flex flex-col items-center gap-4'> 
-                    <div className='flex justify-between w-[90%] md:w-[60%] text-sm sm:text-base'>
-                        <div>Time: {totalGameTime.hours}:{totalGameTime.minutes}:{totalGameTime.seconds}</div>
-                        <div>Attempts: {attemptsCount}</div>
-                        <div>Matched pairs: {matchedPairsCount}/{numberOfPairs}</div>
-                    </div>
-                    <div className='buttons flex gap-4 flex-wrap flex-col sm:flex-row'>
-                        <button onClick={endGame}>End Game</button>
-                        {/* <button onClick={handleResetGame}>Reset Game</button> */}
-                        <button onClick={() => getCardsData(handleResetGame())}>New Game</button>
-                    </div>
-                    <div className='board relative w-[90%] md:w-[60%] mx-auto p-4 rounded-xl shadow-xl'>
-                        <div className='relative flex flex-wrap justify-center gap-3 py-3'>
-                            {cards.map(card => (
-                                <Card
-                                    key={card.cardId}
-                                    pairId={card.pairId}
-                                    cardId={card.cardId}
-                                    url={card.url}
-                                    isFlipped={card.isFlipped}
-                                    selectCard={selectCard}
-                                    isMatched={card.isMatched}
-                                />
-                            ))}
+            { endGameScreenVisible
+                ? <EndGameScreen handleNewGame={handleNewGame} /> 
+                : <div>
+                    {cards
+                        ? <div className='flex flex-col items-center gap-4'> 
+                            <div className='flex justify-between w-[90%] md:w-[60%] text-sm sm:text-base'>
+                                <div>Time: {totalGameTime.hours}:{totalGameTime.minutes}:{totalGameTime.seconds}</div>
+                                <div>Attempts: {attemptsCount}</div>
+                                <div>Matched pairs: {matchedPairsCount}/{numberOfPairs}</div>
+                            </div>
+                            <div className='buttons flex gap-4 flex-wrap flex-col xs:flex-row'>
+                                <button onClick={endGame}>End Game</button>
+                                {/* <button onClick={handleResetGame}>Reset Game</button> */}
+                                <button onClick={() => handleNewGame()}>New Game</button>
+                            </div>
+                            <div className='board relative w-[90%] md:w-[60%] mx-auto p-4 rounded-xl shadow-xl'>
+                                <div className='relative flex flex-wrap justify-center gap-3 py-3'>
+                                    {cards.map(card => (
+                                        <Card
+                                            key={card.cardId}
+                                            pairId={card.pairId}
+                                            cardId={card.cardId}
+                                            url={card.url}
+                                            isFlipped={card.isFlipped}
+                                            selectCard={selectCard}
+                                            isMatched={card.isMatched}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        : <div>Loading...</div>
+                    }
                 </div>
-                : <div>Loading...</div>
             }
         </div>
     );
